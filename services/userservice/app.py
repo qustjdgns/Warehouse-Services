@@ -1,41 +1,39 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, render_template
+from config.config import Config
+from api.health import health_bp
+from api.scan import scan_bp
 
-app = Flask(__name__)
 
-# 서버 상태 확인용 API
-@app.route("/health")
-def health():
-    return jsonify({
-        "status": "ok",
-        "service": "userservice"
-    })
+def create_app():
+    # Flask 애플리케이션 생성
+    app = Flask(__name__)
 
-# 배포 버전 확인용 API
-@app.route("/version")
-def version():
-    return jsonify({
-        "service": "userservice",
-        "version": "v1.0.0"
-    })
+    # 설정 적용
+    app.config.from_object(Config)
 
-# QR/바코드 스캔 요청 처리 API
-@app.route("/scan", methods=["POST"])
-def scan():
-    data = request.get_json()
+    # API Blueprint 등록
+    app.register_blueprint(health_bp)
+    app.register_blueprint(scan_bp)
 
-    barcode = data.get("barcode")
-
-    if not barcode:
+    @app.route("/", methods=["GET"])
+    def home():
+        # 기본 서비스 확인용 API
         return jsonify({
-            "error": "barcode 값이 필요합니다."
-        }), 400
+            "service": Config.SERVICE_NAME,
+            "message": "SmartWMS UserService is running"
+        })
 
-    return jsonify({
-        "message": "스캔 성공",
-        "barcode": barcode,
-        "next": "WMS Server로 서비스 요청 전달 예정"
-    })
+    @app.route("/pda", methods=["GET"])
+    def pda():
+        # 스마트폰/PDA 카메라 스캔 화면
+        return render_template("pda.html")
+
+    return app
+
+
+app = create_app()
+
 
 if __name__ == "__main__":
-    # 외부 접속 가능하게 0.0.0.0 사용
-    app.run(host="0.0.0.0", port=5000)
+    # 0.0.0.0은 Docker/Kubernetes 환경에서 외부 접속을 위해 필요
+    app.run(host="0.0.0.0", port=5000, debug=True)
