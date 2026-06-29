@@ -2,7 +2,8 @@ from flask import Flask, jsonify, render_template
 from config.config import Config
 from api.health import health_bp
 from api.scan import scan_bp
-
+from api.auth import auth_bp
+from api.stock import stock_bp
 
 def create_app():
     # Flask 애플리케이션 생성
@@ -14,6 +15,8 @@ def create_app():
     # API Blueprint 등록
     app.register_blueprint(health_bp)
     app.register_blueprint(scan_bp)
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(stock_bp)
 
     @app.route("/", methods=["GET"])
     def home():
@@ -27,6 +30,18 @@ def create_app():
     def pda():
         # 스마트폰/PDA 카메라 스캔 화면
         return render_template("pda.html")
+
+    @app.route("/login-page", methods=["GET"])
+    def login_page():
+        return render_template("login.html")
+
+    @app.route("/operator/home", methods=["GET"])
+    def operator_home():
+        return render_template("operator_home.html")
+
+    @app.route("/manager/dashboard", methods=["GET"])
+    def manager_dashboard():
+        return render_template("manager_dashboard.html")
 
     return app
 

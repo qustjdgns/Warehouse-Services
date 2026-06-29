@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartWMS Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 로그인 전용 CSS -->
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="logo-box">
+                <div class="logo-icon">📦</div>
+                <h1>SmartWMS</h1>
+                <p>Warehouse Management System</p>
+            </div>
+
+            <div class="form-box">
+                <label for="username">User ID</label>
+                <input id="username" type="text" placeholder="manager 또는 operator">
+
+                <label for="password">Password</label>
+                <input id="password" type="password" placeholder="1234">
+
+                <button onclick="login()">Login</button>
+
+                <div id="message" class="message"></div>
+            </div>
+
+            <div class="test-account">
+                <p>테스트 계정</p>
+                <span>manager / 1234</span>
+                <span>operator / 1234</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로그인 전용 JS -->
+    <script src="/static/js/login.js"></script>
+</body>
+</html>

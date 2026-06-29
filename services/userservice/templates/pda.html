@@ -2,138 +2,69 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>SmartWMS PDA Scanner</title>
+    <title>SmartWMS PDA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- QR/Barcode 스캔 라이브러리 -->
     <script src="https://unpkg.com/html5-qrcode"></script>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f7;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .box {
-            max-width: 420px;
-            margin: auto;
-            background: white;
-            border-radius: 18px;
-            padding: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-
-        h2 {
-            margin-top: 0;
-        }
-
-        #reader {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 12px;
-        }
-
-        .label {
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        .value {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-	.message {
-	    margin-top: 12px;
-	    padding: 10px;
-	    border-radius: 10px;
-	    background: #dcfce7;
-	    color: #166534;
-	    font-weight: bold;
-	}
-
-    </style>
+    <!-- PDA 전용 CSS -->
+    <link rel="stylesheet" href="/static/css/pda.css">
 </head>
 <body>
-    <div class="box">
-        <h2>SmartWMS PDA Scanner</h2>
-        <p>QR 코드를 카메라로 스캔하세요.</p>
+    <div class="pda-container">
+        <div class="header">
+            <h2>SmartWMS PDA</h2>
+            <div id="mode-badge">작업 모드 확인 중</div>
+        </div>
 
-        <!-- 카메라 화면 -->
-        <div id="reader"></div>
+        <p class="description">QR/바코드를 스캔하여 상품 정보를 조회하세요.</p>
 
-        <!-- 결과 출력 -->
-        <div class="result">
-            <div class="label">스캔 코드</div>
-            <div id="barcode" class="value">대기 중...</div>
+        <!-- QR 스캔 영역 -->
+        <div class="scanner-box">
+            <div id="reader"></div>
+        </div>
 
-	    <div class="label">상품명</div>
-	    <div id="product-name" class="value">-</div>
+        <!-- 상품 정보 출력 -->
+        <div class="result-card">
+            <div class="row">
+                <span class="label">스캔 코드</span>
+                <span id="barcode" class="value">대기 중...</span>
+            </div>
 
-	    <div class="label">재고</div>
-	    <div id="stock" class="value">-</div>
+            <div class="row">
+                <span class="label">상품명</span>
+                <span id="product-name" class="value">-</span>
+            </div>
 
-	    <div class="label">위치</div>
-	    <div id="location" class="value">-</div>
+            <div class="row">
+                <span class="label">재고</span>
+                <span id="stock" class="value">-</span>
+            </div>
 
-	    <div id="message" class="message">스캔 대기 중</div>
+            <div class="row">
+                <span class="label">위치</span>
+                <span id="location" class="value">-</span>
+            </div>
+        </div>
+
+        <!-- 입고/출고 수량 -->
+        <div class="quantity-card">
+            <label for="quantity">처리 수량</label>
+            <input id="quantity" type="number" min="1" value="1">
+
+            <button id="stock-btn" onclick="processStock()">처리</button>
+        </div>
+
+        <!-- 메시지 -->
+        <div id="message" class="message">스캔 대기 중</div>
+
+        <div class="footer">
+            SmartWMS UserService PDA
         </div>
     </div>
 
-    <script>
-        function onScanSuccess(decodedText) {
-            document.getElementById("barcode").innerText = decodedText;
-
-            // 스캔된 QR 값을 Flask /scan API로 전송
-            fetch("/scan", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    barcode: decodedText
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-		if (data.error) {
-			document.getElementById("message").innerText = data.error;
-            		document.getElementById("product-name").innerText = "-";
-             		document.getElementById("stock").innerText = "-";
-             		document.getElementById("location").innerText = "-";
-            		return;
-        	}
-
-        	document.getElementById("barcode").innerText = data.barcode;
-        	document.getElementById("product-name").innerText = data.product.name;
-        	document.getElementById("stock").innerText = data.product.stock + " EA";
-       	 	document.getElementById("location").innerText = data.product.location;
-        	document.getElementById("message").innerText = "스캔 성공";
-	    })
-	    .catch(error => {
-		document.getElementByID("message").innerText = "Request Failed: " + error;
-            });
-        }
-
-        // 카메라 스캐너 실행
-        const scanner = new Html5QrcodeScanner(
-            "reader",
-            {
-                fps: 10,
-                qrbox: 250
-            }
-        );
-
-        scanner.render(onScanSuccess);
-    </script>
+    <!-- PDA 전용 JS -->
+    <script src="/static/js/pda.js"></script>
 </body>
 </html>

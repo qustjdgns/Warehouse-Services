@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SmartWMS Manager</title>
+
+<link rel="stylesheet" href="/static/css/manager.css">
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>SmartWMS</h2>
+
+        <ul>
+
+            <li class="active">📊 Dashboard</li>
+            <li>📦 Products</li>
+            <li>📚 Inventory</li>
+            <li>📜 History</li>
+            <li>👤 Users</li>
+            <li>⚙ Settings</li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main -->
+
+    <main class="content">
+
+        <h1>Manager Dashboard</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>📦 Products</h3>
+                <h2>132</h2>
+            </div>
+
+            <div class="card">
+                <h3>📥 Today Inbound</h3>
+                <h2>42</h2>
+            </div>
+
+            <div class="card">
+                <h3>📤 Today Outbound</h3>
+                <h2>31</h2>
+            </div>
+
+            <div class="card">
+                <h3>⚠ Low Stock</h3>
+                <h2>8</h2>
+            </div>
+
+        </div>
+	        
+        <div class="charts">
+					   <div class="chart-box">
+				        <h2>Inventory Status</h2>
+				        <canvas id="inventoryChart"></canvas>
+					   </div>
+		
+					   <div class="chart-box">
+				        <h2>Inbound / Outbound</h2>
+				        <canvas id="flowChart"></canvas>
+				     </div>
+				</div>
+				
+				<script src="/static/js/manager.js"></script>
+
+        <div class="history">
+
+            <h2>Recent History</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>Barcode</th>
+                    <th>Product</th>
+                    <th>Type</th>
+                    <th>Qty</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>P001</td>
+                    <td>Keyboard</td>
+                    <td>Inbound</td>
+                    <td>+10</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>P002</td>
+                    <td>Mouse</td>
+                    <td>Outbound</td>
+                    <td>-5</td>
+
+                </tr>
+
+                <tr>
+
+                    <td>P003</td>
+                    <td>USB-C Cable</td>
+                    <td>Inbound</td>
+                    <td>+25</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

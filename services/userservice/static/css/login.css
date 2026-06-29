@@ -1,0 +1,122 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #e9eef5;
+    font-family: Arial, sans-serif;
+}
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    width: 380px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.logo-box {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.logo-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px;
+    border-radius: 18px;
+    background: #2563eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 34px;
+}
+
+.logo-box h1 {
+    margin: 0;
+    color: #111827;
+}
+
+.logo-box p {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.form-box label {
+    display: block;
+    margin-bottom: 7px;
+    color: #334155;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-box input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    box-sizing: border-box;
+    font-size: 15px;
+}
+
+.form-box input:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.form-box button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.form-box button:hover {
+    background: #1d4ed8;
+}
+
+.message {
+    margin-top: 14px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.message.success {
+    color: #166534;
+}
+
+.message.error {
+    color: #991b1b;
+}
+
+.test-account {
+    margin-top: 22px;
+    padding: 14px;
+    background: #f8fafc;
+    border-radius: 14px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.test-account p {
+    margin: 0 0 8px;
+    font-weight: bold;
+    color: #334155;
+}
+
+.test-account span {
+    display: block;
+    margin-top: 4px;
+}
