@@ -1,171 +1,130 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>SmartWMS Manager</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/static/css/manager.css">
-</head>
-<body>
-    <div class="layout">
+{% block title %}Manager Dashboard{% endblock %}
 
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-icon">📦</div>
-                <div>
-                    <h2>SmartWMS</h2>
-                    <p>Admin Console</p>
-                </div>
-            </div>
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/manager.css">
+{% endblock %}
 
-            <ul class="menu">
-                <li class="active">📊 Dashboard</li>
-                <li>📦 Products</li>
-                <li>📚 Inventory</li>
-                <li>📜 History</li>
-                <li>👤 Users</li>
-                <li>⚙ Settings</li>
-            </ul>
+{% block page_title %}Manager Dashboard{% endblock %}
+{% block page_desc %}SmartWMS 운영 현황을 확인합니다.{% endblock %}
 
-            <div class="sidebar-user">
-                <div class="avatar">M</div>
-                <div>
-                    <strong>관리자</strong>
-                    <p>manager</p>
-                </div>
-            </div>
-        </aside>
+{% block content %}
 
-        <main class="content">
-
-            <div class="top-header">
-                <div>
-                    <h1>Manager Dashboard</h1>
-                    <p>SmartWMS 운영 현황을 확인합니다.</p>
-                </div>
-
-                <div class="header-actions">
-                    <button class="icon-btn">🔔</button>
-                    <button class="logout-btn" onclick="location.href='/login-page'">Logout</button>
-                </div>
-            </div>
-
-            <div class="cards">
-                <div class="card">
-                    <p>전체 상품</p>
-                    <h2>132</h2>
-                    <span>Products</span>
-                </div>
-
-                <div class="card">
-                    <p>오늘 입고</p>
-                    <h2>42</h2>
-                    <span>Inbound</span>
-                </div>
-
-                <div class="card">
-                    <p>오늘 출고</p>
-                    <h2>31</h2>
-                    <span>Outbound</span>
-                </div>
-
-                <div class="card warning">
-                    <p>재고 부족</p>
-                    <h2>8</h2>
-                    <span>Low Stock</span>
-                </div>
-            </div>
-
-            <div class="charts">
-                <div class="chart-box">
-                    <h2>Inventory Status</h2>
-                    <canvas id="inventoryChart"></canvas>
-                </div>
-
-                <div class="chart-box">
-                    <h2>Inbound / Outbound</h2>
-                    <canvas id="flowChart"></canvas>
-                </div>
-            </div>
-
-            <div class="bottom-grid">
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>Recent History</h2>
-                        <span>최근 입출고 내역</span>
-                    </div>
-
-                    <table>
-                        <tr>
-                            <th>Barcode</th>
-                            <th>Product</th>
-                            <th>Type</th>
-                            <th>Qty</th>
-                            <th>Time</th>
-                        </tr>
-                        <tr>
-                            <td>P001</td>
-                            <td>Keyboard</td>
-                            <td><span class="tag inbound">Inbound</span></td>
-                            <td>+10</td>
-                            <td>09:13</td>
-                        </tr>
-                        <tr>
-                            <td>P002</td>
-                            <td>Mouse</td>
-                            <td><span class="tag outbound">Outbound</span></td>
-                            <td>-5</td>
-                            <td>09:05</td>
-                        </tr>
-                        <tr>
-                            <td>P003</td>
-                            <td>USB-C Cable</td>
-                            <td><span class="tag inbound">Inbound</span></td>
-                            <td>+25</td>
-                            <td>08:47</td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-header">
-                        <h2>Low Stock Products</h2>
-                        <span>재고 부족 상품</span>
-                    </div>
-
-                    <div class="low-stock-list">
-                        <div class="low-stock-item">
-                            <div>
-                                <strong>Monitor</strong>
-                                <p>P008 · A-03-01</p>
-                            </div>
-                            <span class="low-count">3 EA</span>
-                        </div>
-
-                        <div class="low-stock-item">
-                            <div>
-                                <strong>Laptop Stand</strong>
-                                <p>P010 · B-02-04</p>
-                            </div>
-                            <span class="low-count">2 EA</span>
-                        </div>
-
-                        <div class="low-stock-item">
-                            <div>
-                                <strong>HDMI Cable</strong>
-                                <p>P011 · C-01-02</p>
-                            </div>
-                            <span class="low-count">4 EA</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </main>
+<div class="cards">
+    <div class="card">
+        <p>전체 상품</p>
+        <h2>132</h2>
+        <span>Products</span>
     </div>
 
-    <script src="/static/js/manager.js"></script>
-</body>
-</html>
+    <div class="card">
+        <p>오늘 입고</p>
+        <h2>42</h2>
+        <span>Inbound</span>
+    </div>
+
+    <div class="card">
+        <p>오늘 출고</p>
+        <h2>31</h2>
+        <span>Outbound</span>
+    </div>
+
+    <div class="card warning">
+        <p>재고 부족</p>
+        <h2>8</h2>
+        <span>Low Stock</span>
+    </div>
+</div>
+
+<div class="charts">
+    <div class="chart-box">
+        <h2>Inventory Status</h2>
+        <canvas id="inventoryChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h2>Inbound / Outbound</h2>
+        <canvas id="flowChart"></canvas>
+    </div>
+</div>
+
+<div class="bottom-grid">
+    <div class="panel">
+        <div class="panel-header">
+            <h2>Recent History</h2>
+            <span>최근 입출고 내역</span>
+        </div>
+
+        <table>
+            <tr>
+                <th>Barcode</th>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Qty</th>
+                <th>Time</th>
+            </tr>
+            <tr>
+                <td>P001</td>
+                <td>Keyboard</td>
+                <td><span class="tag inbound">Inbound</span></td>
+                <td>+10</td>
+                <td>09:13</td>
+            </tr>
+            <tr>
+                <td>P002</td>
+                <td>Mouse</td>
+                <td><span class="tag outbound">Outbound</span></td>
+                <td>-5</td>
+                <td>09:05</td>
+            </tr>
+            <tr>
+                <td>P003</td>
+                <td>USB-C Cable</td>
+                <td><span class="tag inbound">Inbound</span></td>
+                <td>+25</td>
+                <td>08:47</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">
+            <h2>Low Stock Products</h2>
+            <span>재고 부족 상품</span>
+        </div>
+
+        <div class="low-stock-list">
+            <div class="low-stock-item">
+                <div>
+                    <strong>Monitor</strong>
+                    <p>P008 · A-03-01</p>
+                </div>
+                <span class="low-count">3 EA</span>
+            </div>
+
+            <div class="low-stock-item">
+                <div>
+                    <strong>Laptop Stand</strong>
+                    <p>P010 · B-02-04</p>
+                </div>
+                <span class="low-count">2 EA</span>
+            </div>
+
+            <div class="low-stock-item">
+                <div>
+                    <strong>HDMI Cable</strong>
+                    <p>P011 · C-01-02</p>
+                </div>
+                <span class="low-count">4 EA</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/manager.js"></script>
+{% endblock %}

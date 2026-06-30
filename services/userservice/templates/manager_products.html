@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Products Management{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/products.css">
+{% endblock %}
+
+{% block page_title %}Products Management{% endblock %}
+{% block page_desc %}상품 등록, 수정, 삭제 및 재고 상태를 관리합니다.{% endblock %}
+
+{% block content %}
+
+<div class="product-toolbar">
+    <input id="searchInput" type="text" placeholder="Barcode 또는 Product Name 검색" onkeyup="renderProducts()">
+    <button class="add-btn" onclick="openAddModal()">+ Add Product</button>
+</div>
+
+<div class="product-table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Barcode</th>
+                <th>Product</th>
+                <th>Stock</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody">
+            <!-- JS에서 상품 목록 렌더링 -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Add/Edit Modal -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle">Add Product</h2>
+
+        <label>Barcode</label>
+        <input id="barcodeInput" type="text" placeholder="P001">
+
+        <label>Product Name</label>
+        <input id="nameInput" type="text" placeholder="Logitech Keyboard">
+
+        <label>Stock</label>
+        <input id="stockInput" type="number" min="0" placeholder="30">
+
+        <label>Location</label>
+        <input id="locationInput" type="text" placeholder="A-01">
+
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+            <button class="save-btn" onclick="saveProduct()">Save</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/products.js"></script>
+{% endblock %}

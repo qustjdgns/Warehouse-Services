@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SmartWMS{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 공통 관리자 CSS -->
+    <link rel="stylesheet" href="/static/css/manager_base.css">
+
+    <!-- 페이지별 CSS 추가 영역 -->
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="layout">
+
+        <!-- 관리자 공통 Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">📦</div>
+                <div>
+                    <h2>SmartWMS</h2>
+                    <p>Admin Console</p>
+                </div>
+            </div>
+
+            <ul class="menu">
+                <li onclick="location.href='/manager/dashboard'">📊 Dashboard</li>
+                <li onclick="location.href='/manager/products'">📦 Products</li>
+                <li>📚 Inventory</li>
+                <li>📜 History</li>
+                <li>👤 Users</li>
+                <li>⚙ Settings</li>
+            </ul>
+
+            <div class="sidebar-user">
+                <div class="avatar">M</div>
+                <div>
+                    <strong>관리자</strong>
+                    <p>manager</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 페이지별 내용 영역 -->
+        <main class="content">
+            <div class="top-header">
+                <div>
+                    <h1>{% block page_title %}Manager Page{% endblock %}</h1>
+                    <p>{% block page_desc %}SmartWMS 관리자 화면입니다.{% endblock %}</p>
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn">🔔</button>
+                    <button class="logout-btn" onclick="location.href='/login-page'">Logout</button>
+                </div>
+            </div>
+
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

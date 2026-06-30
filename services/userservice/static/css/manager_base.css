@@ -1,0 +1,144 @@
+body {
+    margin: 0;
+    background: #e9eef5;
+    font-family: Arial, sans-serif;
+    color: #111827;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: #1e293b;
+    color: white;
+    padding: 24px;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
+}
+
+.brand {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 36px;
+}
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.brand p {
+    margin: 4px 0 0;
+    color: #cbd5e1;
+    font-size: 12px;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu li {
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #e5e7eb;
+}
+
+.menu li:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.sidebar-user {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding-top: 18px;
+    border-top: 1px solid #334155;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e9eef5;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.sidebar-user p {
+    margin: 4px 0 0;
+    color: #cbd5e1;
+    font-size: 12px;
+}
+
+.content {
+    flex: 1;
+    padding: 34px;
+    box-sizing: border-box;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+}
+
+.top-header h1 {
+    margin: 0;
+}
+
+.top-header p {
+    margin: 6px 0 0;
+    color: #64748b;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.icon-btn,
+.logout-btn {
+    border: none;
+    border-radius: 12px;
+    padding: 11px 14px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.icon-btn {
+    background: white;
+}
+
+.logout-btn {
+    background: #2563eb;
+    color: white;
+}

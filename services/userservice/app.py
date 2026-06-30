@@ -4,6 +4,8 @@ from api.health import health_bp
 from api.scan import scan_bp
 from api.auth import auth_bp
 from api.stock import stock_bp
+from api.products import products_bp
+from api.dashboard import dashboard_bp
 
 def create_app():
     # Flask 애플리케이션 생성
@@ -17,6 +19,8 @@ def create_app():
     app.register_blueprint(scan_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(stock_bp)
+    app.register_blueprint(products_bp)
+    app.register_blueprint(dashboard_bp)
 
     @app.route("/", methods=["GET"])
     def home():
@@ -42,6 +46,10 @@ def create_app():
     @app.route("/manager/dashboard", methods=["GET"])
     def manager_dashboard():
         return render_template("manager_dashboard.html")
+
+    @app.route("/manager/products", methods=["GET"])
+    def manager_products():
+        return render_template("manager_products.html")
 
     return app
 
