@@ -41,14 +41,20 @@ function login() {
 
         setMessage("로그인 성공", "success");
 
-	localStorage.setItem(
-  	    "username",
-    	    data.username
-	);
+	// 로그인한 사용자 정보 저장
+	localStorage.setItem("username", data.username);
+	localStorage.setItem("role", data.role);
 
+	// 로그인 성공 Toast 저장
 	localStorage.setItem(
-    	    "role",
-    	    data.role
+    	    "toast",
+    	    JSON.stringify({
+        	title: "✅ Welcome",
+        	message:
+            	    data.role.charAt(0).toUpperCase() +
+            	    data.role.slice(1) +
+            	    " Login"
+    	    })
 	);
 
         setTimeout(() => {

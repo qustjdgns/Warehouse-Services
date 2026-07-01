@@ -35,8 +35,13 @@ function showToast(title, message) {
     if (!toast) return;
 
     toast.innerHTML = `
-        <strong>${title}</strong><br>
-        ${message}
+    	<strong style="font-size:22px;">
+        	${title}
+   	</strong>
+    	<br>
+    	<span style="font-size:18px;">
+        	${message}
+    	</span>
     `;
 
     toast.classList.add("show");
