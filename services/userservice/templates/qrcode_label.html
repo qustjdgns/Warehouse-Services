@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartWMS QR Label</title>
+    <link rel="stylesheet" href="/static/css/qrcode_label.css">
+</head>
+<body>
+    <div class="label-card">
+        <h2>SmartWMS QR Label</h2>
+
+        <p class="product-name">{{ product.name }}</p>
+        <p class="barcode">Barcode : {{ product.barcode }}</p>
+        <p class="location">Location : {{ product.location }}</p>
+
+        <div class="qr-box">
+            <img src="/products/{{ product.barcode }}/qrcode" alt="QR Code">
+        </div>
+
+        <div class="buttons">
+            <a class="download-btn" href="/products/{{ product.barcode }}/qrcode" download="{{ product.barcode }}.png">
+                Download PNG
+            </a>
+
+            <button onclick="window.print()">
+                Print QR
+            </button>
+        </div>
+    </div>
+</body>
+</html>

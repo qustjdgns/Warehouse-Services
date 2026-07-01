@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    background: #e9eef5;
+    font-family: Arial, sans-serif;
+}
+
+.label-card {
+    width: 360px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 22px;
+    padding: 28px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.label-card h2 {
+    margin-top: 0;
+    color: #111827;
+}
+
+.product-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.barcode,
+.location {
+    color: #64748b;
+    margin: 5px 0;
+}
+
+.qr-box {
+    margin: 24px auto;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+}
+
+.qr-box img {
+    width: 220px;
+    height: 220px;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.buttons a,
+.buttons button {
+    flex: 1;
+    text-decoration: none;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@media print {
+    body {
+        background: white;
+    }
+
+    .buttons {
+        display: none;
+    }
+
+    .label-card {
+        box-shadow: none;
+        margin: 0 auto;
+    }
+}

@@ -14,25 +14,25 @@
 <div class="cards">
     <div class="card">
         <p>전체 상품</p>
-        <h2>132</h2>
+        <h2 id="total-products">0</h2>
         <span>Products</span>
     </div>
 
     <div class="card">
         <p>오늘 입고</p>
-        <h2>42</h2>
+        <h2 id="today-inbound">0</h2>
         <span>Inbound</span>
     </div>
 
     <div class="card">
         <p>오늘 출고</p>
-        <h2>31</h2>
+        <h2 id="today-outbound">0</h2>
         <span>Outbound</span>
     </div>
 
     <div class="card warning">
         <p>재고 부족</p>
-        <h2>8</h2>
+        <h2 id="low-stock">0</h2>
         <span>Low Stock</span>
     </div>
 </div>
@@ -57,34 +57,18 @@
         </div>
 
         <table>
-            <tr>
-                <th>Barcode</th>
-                <th>Product</th>
-                <th>Type</th>
-                <th>Qty</th>
-                <th>Time</th>
-            </tr>
-            <tr>
-                <td>P001</td>
-                <td>Keyboard</td>
-                <td><span class="tag inbound">Inbound</span></td>
-                <td>+10</td>
-                <td>09:13</td>
-            </tr>
-            <tr>
-                <td>P002</td>
-                <td>Mouse</td>
-                <td><span class="tag outbound">Outbound</span></td>
-                <td>-5</td>
-                <td>09:05</td>
-            </tr>
-            <tr>
-                <td>P003</td>
-                <td>USB-C Cable</td>
-                <td><span class="tag inbound">Inbound</span></td>
-                <td>+25</td>
-                <td>08:47</td>
-            </tr>
+					<thead>
+					  <tr>
+				      <th>Barcode</th>
+			         <th>Product</th>
+			         <th>Type</th>
+			         <th>Qty</th>
+			         <th>Time</th>
+				     </tr>
+					</thead>
+
+			    <tbody id="recent-history-body">
+			    </tbody>
         </table>
     </div>
 
@@ -94,30 +78,8 @@
             <span>재고 부족 상품</span>
         </div>
 
-        <div class="low-stock-list">
-            <div class="low-stock-item">
-                <div>
-                    <strong>Monitor</strong>
-                    <p>P008 · A-03-01</p>
-                </div>
-                <span class="low-count">3 EA</span>
-            </div>
-
-            <div class="low-stock-item">
-                <div>
-                    <strong>Laptop Stand</strong>
-                    <p>P010 · B-02-04</p>
-                </div>
-                <span class="low-count">2 EA</span>
-            </div>
-
-            <div class="low-stock-item">
-                <div>
-                    <strong>HDMI Cable</strong>
-                    <p>P011 · C-01-02</p>
-                </div>
-                <span class="low-count">4 EA</span>
-            </div>
+        <div class="low-stock-list" id="low-stock-list">
+           
         </div>
     </div>
 </div>

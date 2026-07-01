@@ -1,0 +1,58 @@
+.history-toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.history-toolbar input,
+.history-toolbar select {
+    padding: 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.history-toolbar input {
+    flex: 1;
+}
+
+.history-table-card {
+    background: white;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 14px;
+    background: #2563eb;
+    color: white;
+}
+
+td {
+    padding: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tag {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.inbound {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.outbound {
+    background: #fee2e2;
+    color: #b91c1c;
+}

@@ -27,8 +27,8 @@
             <ul class="menu">
                 <li onclick="location.href='/manager/dashboard'">📊 Dashboard</li>
                 <li onclick="location.href='/manager/products'">📦 Products</li>
-                <li>📚 Inventory</li>
-                <li>📜 History</li>
+                <li onclick="location.href='/manager/inventory'">📚 Inventory</li>
+                <li onClick="location.href='/manager/history'">📜 History</li>
                 <li>👤 Users</li>
                 <li>⚙ Settings</li>
             </ul>
@@ -50,10 +50,22 @@
                     <p>{% block page_desc %}SmartWMS 관리자 화면입니다.{% endblock %}</p>
                 </div>
 
-                <div class="header-actions">
-                    <button class="icon-btn">🔔</button>
-                    <button class="logout-btn" onclick="location.href='/login-page'">Logout</button>
-                </div>
+                    <div class="header-actions">
+
+		    <button class="notify-btn">
+	            	🔔
+    		    </button>
+
+    		    <div class="user-info">
+        		👤 <span id="current-user">Guest</span>
+    		    </div>
+
+    		    <button class="logout-btn" onclick="logout()">
+        		Logout
+    		    </button>
+                
+		</div>
+
             </div>
 
             {% block content %}{% endblock %}
@@ -62,5 +74,9 @@
     </div>
 
     {% block extra_js %}{% endblock %}
+
+    <div id="toast" class="toast"></div>
+    <script src="/static/js/base.js"></script>
+
 </body>
 </html>

@@ -41,6 +41,22 @@ function login() {
 
         setMessage("로그인 성공", "success");
 
+	// 로그인한 사용자 정보 저장
+	localStorage.setItem("username", data.username);
+	localStorage.setItem("role", data.role);
+
+	// 로그인 성공 Toast 저장
+	localStorage.setItem(
+    	    "toast",
+    	    JSON.stringify({
+        	title: "✅ Welcome",
+        	message:
+            	    data.role.charAt(0).toUpperCase() +
+            	    data.role.slice(1) +
+            	    " Login"
+    	    })
+	);
+
         setTimeout(() => {
             if (data.role === "operator") {
                 window.location.href = "/operator/home";

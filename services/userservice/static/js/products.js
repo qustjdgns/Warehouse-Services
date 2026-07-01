@@ -32,7 +32,8 @@ function renderProducts() {
                     <td>
                         <button class="action-btn edit-btn" onclick="openEditModal(${index})">Edit</button>
                         <button class="action-btn delete-btn" onclick="deleteProduct(${index})">Delete</button>
-                    </td>
+                  	<button class="action-btn qr-btn" onclick="openQr('${product.barcode}')">QR</button>
+		  </td>
                 </tr>
             `;
 
@@ -145,6 +146,10 @@ async function deleteProduct(index) {
 
     // DB에서 다시 상품 목록 조회
     loadProducts();
+}
+
+function openQr(barcode) {
+    window.open(`/products/${barcode}/qrcode-label`, "_blank");
 }
 
 // 페이지 로딩 시 상품 목록 표시
