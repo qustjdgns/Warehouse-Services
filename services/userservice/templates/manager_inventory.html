@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/inventory.css">
+{% endblock %}
+
+{% block page_title %}Inventory{% endblock %}
+{% block page_desc %}창고 재고 현황과 상태를 확인합니다.{% endblock %}
+
+{% block content %}
+
+<div class="inventory-toolbar">
+    <input id="searchInput" type="text" placeholder="Barcode, Product, Location 검색" onkeyup="renderInventory()">
+
+    <select id="statusFilter" onchange="renderInventory()">
+        <option value="ALL">전체</option>
+        <option value="NORMAL">Normal</option>
+        <option value="LOW">Low Stock</option>
+        <option value="OUT">Out of Stock</option>
+    </select>
+</div>
+
+<div class="inventory-table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Barcode</th>
+                <th>Product</th>
+                <th>Location</th>
+                <th>Current Stock</th>
+                <th>Status</th>
+                <th>QR</th>
+            </tr>
+        </thead>
+
+        <tbody id="inventoryTableBody">
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/inventory.js"></script>
+{% endblock %}

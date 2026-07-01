@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}History{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/history.css">
+{% endblock %}
+
+{% block page_title %}History{% endblock %}
+{% block page_desc %}입고/출고 작업 이력을 조회합니다.{% endblock %}
+
+{% block content %}
+
+<div class="history-toolbar">
+    <input id="searchInput" type="text" placeholder="Barcode 또는 Product 검색" onkeyup="renderHistory()">
+
+    <select id="typeFilter" onchange="renderHistory()">
+        <option value="ALL">전체</option>
+        <option value="IN">입고</option>
+        <option value="OUT">출고</option>
+    </select>
+</div>
+
+<div class="history-table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Barcode</th>
+                <th>Product</th>
+                <th>Type</th>
+                <th>Qty</th>
+                <th>Worker</th>
+            </tr>
+        </thead>
+
+        <tbody id="historyTableBody">
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/history.js"></script>
+{% endblock %}
