@@ -29,7 +29,7 @@
                 <li onclick="location.href='/manager/products'">📦 Products</li>
                 <li onclick="location.href='/manager/inventory'">📚 Inventory</li>
                 <li onClick="location.href='/manager/history'">📜 History</li>
-                <li>👤 Users</li>
+                <li onClick="location.href='/manager/users'">👤 Users</li>
                 <li>⚙ Settings</li>
             </ul>
 
@@ -52,9 +52,17 @@
 
                     <div class="header-actions">
 
-		    <button class="notify-btn">
-	            	🔔
-    		    </button>
+		    <div class="notification-wrapper">
+    			<button class="notify-btn" onclick="toggleNotifications()">
+        		    🔔
+        		    <span id="notification-count" class="notification-count">0</span>
+    			</button>
+
+    			<div id="notification-panel" class="notification-panel">
+        		    <div class="notification-title">Notifications</div>
+        		    <div id="notification-list"></div>
+    			</div>
+		    </div>
 
     		    <div class="user-info">
         		👤 <span id="current-user">Guest</span>

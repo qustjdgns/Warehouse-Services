@@ -9,6 +9,8 @@ from api.dashboard import dashboard_bp
 from api.qrcode_api import qrcode_bp
 from api.history import history_bp
 from utils.auth_guard import login_required, role_required
+from api.users import users_bp
+from api.notifications import notifications_bp
 
 def create_app():
     # Flask 애플리케이션 생성
@@ -29,6 +31,8 @@ def create_app():
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(qrcode_bp)
     app.register_blueprint(history_bp)
+    app.register_blueprint(users_bp)
+    app.register_blueprint(notifications_bp)
 
     @app.route("/", methods=["GET"])
     def home():
@@ -72,6 +76,11 @@ def create_app():
     @role_required("manager")
     def manager_inventory():
         return render_template("manager_inventory.html")
+
+    @app.route("/manager/users", methods=["GET"])
+    @role_required("manager")
+    def manager_users():
+        return render_template("manager_users.html")
 
     @app.after_request
     def add_no_cache_headers(response):
