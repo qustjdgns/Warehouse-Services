@@ -71,7 +71,8 @@ async function loadOperatorRecentHistory() {
                 <div>
                     <strong>${item.barcode}</strong>
                     <p>${item.product_name}</p>
-                </div>
+                    <p class="history-meta">${item.worker || "-"} · ${item.time}</p>
+		</div>
                 <span class="tag ${tagClass}">${typeLabel}</span>
                 <span>${qtyLabel}</span>
             </div>
