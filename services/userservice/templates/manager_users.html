@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/users.css">
+{% endblock %}
+
+{% block page_title %}Users{% endblock %}
+{% block page_desc %}SmartWMS 사용자 계정과 권한을 관리합니다.{% endblock %}
+
+{% block content %}
+
+<div class="users-toolbar">
+    <input id="searchInput" type="text" placeholder="Username 또는 이름 검색" onkeyup="renderUsers()">
+
+    <select id="roleFilter" onchange="renderUsers()">
+        <option value="ALL">전체</option>
+        <option value="manager">Manager</option>
+        <option value="operator">Operator</option>
+    </select>
+
+    <button class="add-btn" onclick="openAddUserModal()">+ Add User</button>
+</div>
+
+<div class="users-table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="usersTableBody">
+        </tbody>
+    </table>
+</div>
+
+<div id="userModal" class="modal">
+    <div class="modal-content">
+        <h2 id="modalTitle">Add User</h2>
+
+        <label>Username</label>
+        <input id="usernameInput" type="text" placeholder="Username">
+
+        <label>Full Name</label>
+        <input id="fullNameInput" type="text" placeholder="Full Name">
+
+        <label>Password</label>
+        <input id="passwordInput" type="password" placeholder="신규/변경 시 입력">
+
+        <label>Role</label>
+        <select id="roleInput">
+            <option value="manager">Manager</option>
+            <option value="operator">Operator</option>
+        </select>
+
+        <div class="modal-actions">
+            <button class="cancel-btn" onclick="closeUserModal()">Cancel</button>
+            <button class="save-btn" onclick="saveUser()">Save</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/users.js"></script>
+{% endblock %}
