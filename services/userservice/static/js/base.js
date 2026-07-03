@@ -82,3 +82,71 @@ function logout() {
     });
 
 }
+
+async function loadNotifications() {
+    const response = await fetch("/notifications");
+    const notifications = await response.json();
+
+    const countEl = document.getElementById("notification-count");
+    const listEl = document.getElementById("notification-list");
+
+    if (!countEl || !listEl) return;
+
+    listEl.innerHTML = "";
+
+    if (notifications.length > 0) {
+        countEl.innerText = notifications.length;
+        countEl.style.display = "inline-block";
+    } else {
+        countEl.style.display = "none";
+        listEl.innerHTML = `
+            <div class="notification-item">
+                <strong>알림 없음</strong>
+                <p>현재 확인할 알림이 없습니다.</p>
+            </div>
+        `;
+        return;
+    }
+
+    notifications.forEach(item => {
+        const icon = item.type === "warning" ? "⚠" : "📦";
+        const className = item.type === "warning"
+            ? "notification-warning"
+            : "notification-info";
+
+        listEl.innerHTML += `
+            <div class="notification-item ${className}">
+                <strong>${icon} ${item.title}</strong>
+                <p>${item.message}</p>
+            </div>
+        `;
+    });
+}
+
+function toggleNotifications() {
+    const panel = document.getElementById("notification-panel");
+
+    if (!panel) return;
+
+    panel.classList.toggle("show");
+
+    loadNotifications();
+}
+
+document.addEventListener("click", function (event) {
+    const wrapper = document.querySelector(".notification-wrapper");
+
+    if (!wrapper) return;
+
+    if (!wrapper.contains(event.target)) {
+        const panel = document.getElementById("notification-panel");
+
+        if (panel) {
+            panel.classList.remove("show");
+        }
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    loadNotifications();
+});
