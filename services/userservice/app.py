@@ -11,6 +11,7 @@ from api.history import history_bp
 from utils.auth_guard import login_required, role_required
 from api.users import users_bp
 from api.notifications import notifications_bp
+from api.settings import settings_bp
 
 def create_app():
     # Flask 애플리케이션 생성
@@ -33,6 +34,7 @@ def create_app():
     app.register_blueprint(history_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(notifications_bp)
+    app.register_blueprint(settings_bp)
 
     @app.route("/", methods=["GET"])
     def home():
@@ -81,6 +83,11 @@ def create_app():
     @role_required("manager")
     def manager_users():
         return render_template("manager_users.html")
+
+    @app.route("/manager/settings", methods=["GET"])
+    @role_required("manager")
+    def manager_settings():
+        return render_template("manager_settings.html")
 
     @app.after_request
     def add_no_cache_headers(response):

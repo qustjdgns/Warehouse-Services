@@ -286,3 +286,308 @@ body {
 .notification-info {
     border-left: 5px solid #2563eb;
 }
+
+.qr-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.qr-modal.show {
+    display: flex;
+}
+
+.qr-label-card {
+    position: relative;
+    width: 420px;
+    background: white;
+    border-radius: 24px;
+    padding: 28px;
+    text-align: center;
+    box-shadow: 0 20px 45px rgba(0,0,0,.25);
+}
+
+.qr-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.qr-label-card h2 {
+    margin-top: 0;
+}
+
+.qr-label-card h3 {
+    margin-bottom: 8px;
+    font-size: 22px;
+}
+
+.qr-label-card p {
+    margin: 5px 0;
+    color: #64748b;
+}
+
+.qr-box {
+    margin: 24px auto;
+    padding: 18px;
+    background: #f8fafc;
+    border-radius: 18px;
+}
+
+.qr-box img {
+    width: 220px;
+    height: 220px;
+}
+
+.qr-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.qr-buttons button,
+.qr-buttons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 44px;
+    box-sizing: border-box;
+
+    border: none;
+    border-radius: 14px;
+    padding: 0 13px;
+
+    background: #2563eb;
+    color: white;
+
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: Arial, sans-serif;
+
+    cursor: pointer;
+}
+
+/* =========================
+   iOS Glass Theme Toggle
+========================= */
+
+.theme-toggle-area {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.12);
+}
+
+.theme-switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.theme-text {
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: .2px;
+    transition: .35s ease;
+}
+
+.light-text {
+    color: #f8fafc;
+}
+
+.dark-text {
+    color: #64748b;
+}
+
+body.dark-mode .light-text {
+    color: #475569;
+}
+
+body.dark-mode .dark-text {
+    color: #f8fafc;
+}
+
+.ios-theme-switch input {
+    display: none;
+}
+
+.ios-track {
+    position: relative;
+    display: block;
+    width: 82px;
+    height: 40px;
+    border-radius: 999px;
+    overflow: hidden;
+    cursor: pointer;
+    background: linear-gradient(180deg, #8bbcff 0%, #5b8df7 100%);
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,.55),
+        inset 0 -5px 10px rgba(0,0,0,.18),
+        0 8px 18px rgba(0,0,0,.28);
+    transition: .45s cubic-bezier(.2,.8,.2,1);
+}
+
+.ios-track::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 25% 20%, rgba(255,255,255,.55), transparent 28%);
+    opacity: .9;
+    transition: .45s;
+}
+
+.ios-knob {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.32),
+        inset 0 2px 3px rgba(255,255,255,.85);
+    transition: .45s cubic-bezier(.2,.8,.2,1);
+    z-index: 3;
+}
+
+.sun-icon,
+.moon-icon {
+    position: absolute;
+    font-size: 15px;
+    transition: .35s ease;
+}
+
+.sun-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.moon-icon {
+    opacity: 0;
+    transform: scale(.4) rotate(-35deg);
+}
+
+/* clouds */
+.ios-cloud {
+    position: absolute;
+    bottom: -4px;
+    width: 28px;
+    height: 14px;
+    background: rgba(255,255,255,.88);
+    border-radius: 999px;
+    transition: .45s ease;
+}
+
+.ios-cloud::before,
+.ios-cloud::after {
+    content: "";
+    position: absolute;
+    background: rgba(255,255,255,.9);
+    border-radius: 50%;
+}
+
+.ios-cloud::before {
+    width: 14px;
+    height: 14px;
+    left: 5px;
+    top: -7px;
+}
+
+.ios-cloud::after {
+    width: 18px;
+    height: 18px;
+    right: 2px;
+    top: -10px;
+}
+
+.cloud-a {
+    right: 7px;
+}
+
+.cloud-b {
+    right: 28px;
+    transform: scale(.75);
+    opacity: .75;
+}
+
+/* stars */
+.ios-stars i {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 8px rgba(255,255,255,.9);
+    transition: .45s ease;
+}
+
+.ios-stars i:nth-child(1) {
+    top: 9px;
+    left: 18px;
+}
+
+.ios-stars i:nth-child(2) {
+    top: 22px;
+    left: 28px;
+    width: 3px;
+    height: 3px;
+}
+
+.ios-stars i:nth-child(3) {
+    top: 13px;
+    left: 42px;
+    width: 5px;
+    height: 5px;
+}
+
+/* checked = dark */
+.ios-theme-switch input:checked + .ios-track {
+    background: linear-gradient(180deg, #111827 0%, #020617 100%);
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,.08),
+        inset 0 -5px 10px rgba(0,0,0,.55),
+        0 8px 18px rgba(0,0,0,.35);
+}
+
+.ios-theme-switch input:checked + .ios-track::before {
+    opacity: .25;
+}
+
+.ios-theme-switch input:checked + .ios-track .ios-knob {
+    left: 47px;
+    background: #e5e7eb;
+}
+
+.ios-theme-switch input:checked + .ios-track .sun-icon {
+    opacity: 0;
+    transform: scale(.4) rotate(35deg);
+}
+
+.ios-theme-switch input:checked + .ios-track .moon-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.ios-theme-switch input:checked + .ios-track .ios-cloud {
+    transform: translateY(22px);
+    opacity: 0;
+}
+
+.ios-theme-switch input:checked + .ios-track .ios-stars i {
+    opacity: 1;
+}

@@ -66,6 +66,39 @@ function showToast(title, message) {
 
 }
 
+function applyTheme() {
+    const theme = localStorage.getItem("theme") || "light";
+
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
+    }
+
+    const toggle = document.getElementById("themeToggle");
+
+    if (toggle) {
+        toggle.checked = theme === "dark";
+    }
+}
+
+function toggleTheme() {
+    const toggle = document.getElementById("themeToggle");
+    const isDark = toggle.checked;
+
+    if (isDark) {
+        localStorage.setItem("theme", "dark");
+        document.body.classList.add("dark-mode");
+        showToast("🌙 Dark Mode", "Dark mode enabled");
+    } else {
+        localStorage.setItem("theme", "light");
+        document.body.classList.remove("dark-mode");
+        showToast("☀ Light Mode", "Light mode enabled");
+    }
+}
+
+applyTheme();
+
 function logout() {
 
     fetch("/logout", {
@@ -149,4 +182,47 @@ document.addEventListener("click", function (event) {
 
 document.addEventListener("DOMContentLoaded", function () {
     loadNotifications();
+});
+
+let currentQrBarcode = null;
+
+function openQrModal(product) {
+    currentQrBarcode = product.barcode;
+
+    const qrUrl = `/products/${product.barcode}/qrcode`;
+
+    document.getElementById("qrImage").src = qrUrl;
+    document.getElementById("qrProductName").innerText = product.name;
+    document.getElementById("qrBarcode").innerText = product.barcode;
+    document.getElementById("qrLocation").innerText = product.location;
+    document.getElementById("qrStock").innerText = product.stock + " EA";
+
+    const downloadLink = document.getElementById("qrDownloadLink");
+    downloadLink.href = qrUrl;
+    downloadLink.download = `${product.barcode}.png`;
+
+    document.getElementById("qrModal").classList.add("show");
+}
+
+function closeQrModal() {
+    document.getElementById("qrModal").classList.remove("show");
+}
+
+function copyBarcode() {
+    navigator.clipboard.writeText(currentQrBarcode);
+
+    showToast(
+        "📋 Copied",
+        currentQrBarcode + " 복사 완료"
+    );
+}
+
+function printQr() {
+    window.print();
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+        closeQrModal();
+    }
 });

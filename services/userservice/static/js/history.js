@@ -16,15 +16,21 @@ function renderHistory() {
 
     historyData
         .filter(item => {
-            const matchKeyword =
-                item.barcode.toLowerCase().includes(keyword) ||
-                item.product_name.toLowerCase().includes(keyword);
+            const barcode = item.barcode || "";
+    	    const productName = item.product_name || "";
+            const worker = item.worker || "";
 
-            const matchType =
-                typeFilter === "ALL" || item.type === typeFilter;
+    	    const matchKeyword =
+        	barcode.toLowerCase().includes(keyword) ||
+        	productName.toLowerCase().includes(keyword) ||
+        	worker.toLowerCase().includes(keyword);
 
-            return matchKeyword && matchType;
-        })
+    	    const matchType =
+       		typeFilter === "ALL" || item.type === typeFilter;
+
+    	    return matchKeyword && matchType;
+	})
+
         .forEach(item => {
             const typeLabel = item.type === "IN" ? "입고" : "출고";
             const tagClass = item.type === "IN" ? "inbound" : "outbound";
