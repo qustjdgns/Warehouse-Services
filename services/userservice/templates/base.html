@@ -7,6 +7,7 @@
 
     <!-- 공통 관리자 CSS -->
     <link rel="stylesheet" href="/static/css/manager_base.css">
+    <link rel="stylesheet" href="/static/css/theme.css">
 
     <!-- 페이지별 CSS 추가 영역 -->
     {% block extra_css %}{% endblock %}
@@ -30,10 +31,38 @@
                 <li onclick="location.href='/manager/inventory'">📚 Inventory</li>
                 <li onClick="location.href='/manager/history'">📜 History</li>
                 <li onClick="location.href='/manager/users'">👤 Users</li>
-                <li>⚙ Settings</li>
+                <li onclick="location.href='/manager/settings'">⚙ Settings</li>
             </ul>
 
-            <div class="sidebar-user">
+            <div class="theme-toggle-area">
+    		<div class="theme-switch-row">
+        	    <span class="theme-text light-text">Light</span>
+
+        	    <label class="ios-theme-switch">
+            		<input id="themeToggle" type="checkbox" onchange="toggleTheme()">
+
+            		<span class="ios-track">
+                	    <span class="ios-stars">
+                    		<i></i>
+                    		<i></i>
+                    		<i></i>
+                	    </span>
+
+                	    <span class="ios-cloud cloud-a"></span>
+                	    <span class="ios-cloud cloud-b"></span>
+
+                	    <span class="ios-knob">
+                    		<span class="sun-icon">☀</span>
+                    		<span class="moon-icon">🌙</span>
+                	    </span>
+            		</span>
+        	    </label>
+
+        	    <span class="theme-text dark-text">Dark</span>
+    		</div>
+	    </div>
+
+	    <div class="sidebar-user">
                 <div class="avatar">M</div>
                 <div>
                     <strong id="sidebar-full-name">Guest</strong>
@@ -84,6 +113,31 @@
     {% block extra_js %}{% endblock %}
 
     <div id="toast" class="toast"></div>
+    
+    <div id="qrModal" class="qr-modal">
+    	<div class="qr-label-card">
+            <button class="qr-close-btn" onclick="closeQrModal()">×</button>
+
+            <h2>SmartWMS QR Label</h2>
+
+            <h3 id="qrProductName">Product Name</h3>
+
+            <p>Barcode : <span id="qrBarcode">-</span></p>
+            <p>Location : <span id="qrLocation">-</span></p>
+            <p>Stock : <span id="qrStock">-</span></p>
+
+            <div class="qr-box">
+                <img id="qrImage" src="" alt="QR Code">
+            </div>
+
+            <div class="qr-buttons">
+                <button onclick="copyBarcode()">Copy Barcode</button>
+                <a id="qrDownloadLink" href="#" download>Download PNG</a>
+                <button onclick="printQr()">Print QR</button>
+            </div>
+        </div>
+    </div>
+
     <script src="/static/js/base.js"></script>
 
 </body>
