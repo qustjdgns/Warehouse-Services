@@ -50,7 +50,7 @@ function renderInventory() {
 
             return matchKeyword && matchStatus;
         })
-        .forEach(item => {
+        .forEach((item, index) => {
             const status = getInventoryStatus(item.stock);
 
             const row = `
@@ -65,9 +65,7 @@ function renderInventory() {
                         </span>
                     </td>
                     <td>
-                        <button class="qr-btn" onclick="openQr('${item.barcode}')">
-                            QR
-                        </button>
+                        <button class="qr-btn" onclick="openQr('${index}')">QR</button>
                     </td>
                 </tr>
             `;
@@ -76,8 +74,15 @@ function renderInventory() {
         });
 }
 
-function openQr(barcode) {
-    window.open(`/products/${barcode}/qrcode-label`, "_blank");
+function openQr(index) {
+    const product = inventoryData[index];
+
+    if (!product) {
+        showToast("❌ Error", "상품 정보를 찾을 수 없습니다.");
+        return;
+    }
+
+    openQrModal(product);
 }
 
 loadInventory();

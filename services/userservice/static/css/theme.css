@@ -1,0 +1,382 @@
+/* static/css/theme.css */
+/* SmartWMS Theme System */
+
+/* =========================
+   Light Theme Variables
+========================= */
+:root {
+    --bg: #eef2f7;
+    --sidebar-bg: #1e293b;
+    --card-bg: #ffffff;
+    --input-bg: #ffffff;
+
+    --text-main: #0f172a;
+    --text-sub: #64748b;
+    --text-muted: #94a3b8;
+
+    --border: #e5e7eb;
+    --border-strong: #cbd5e1;
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --table-header: #2563eb;
+}
+
+/* =========================
+   Dark Theme Variables
+========================= */
+body.dark-mode {
+    --bg: #0f172a;
+    --sidebar-bg: #020617;
+    --card-bg: #1e293b;
+    --input-bg: #0f172a;
+
+    --text-main: #f8fafc;
+    --text-sub: #cbd5e1;
+    --text-muted: #94a3b8;
+
+    --border: #334155;
+    --border-strong: #475569;
+
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --table-header: #2563eb;
+}
+
+/* =========================
+   Base Dark Layout
+========================= */
+body.dark-mode,
+body.dark-mode .content {
+    background: var(--bg);
+    color: var(--text-main);
+}
+
+body.dark-mode .sidebar {
+    background: var(--sidebar-bg);
+}
+
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode strong,
+body.dark-mode label {
+    color: var(--text-main);
+}
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode small,
+body.dark-mode .card-desc,
+body.dark-mode .page-desc {
+    color: var(--text-sub);
+}
+
+/* =========================
+   Sidebar
+========================= */
+body.dark-mode .menu li {
+    color: #e5e7eb;
+}
+
+body.dark-mode .menu li:hover,
+body.dark-mode .menu li.active {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+body.dark-mode .sidebar-user {
+    border-top-color: var(--border);
+}
+
+body.dark-mode .sidebar-user strong {
+    color: #f8fafc;
+}
+
+body.dark-mode .sidebar-user p {
+    color: #cbd5e1;
+}
+
+/* =========================
+   Header
+========================= */
+body.dark-mode .user-info,
+body.dark-mode .notify-btn {
+    background: var(--card-bg);
+    color: var(--text-main);
+    box-shadow: 0 6px 18px rgba(0,0,0,.25);
+}
+
+body.dark-mode .logout-btn {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(37,99,235,.35);
+}
+
+/* =========================
+   Cards / Panels
+========================= */
+body.dark-mode .card,
+body.dark-mode .chart-box,
+body.dark-mode .panel,
+body.dark-mode .product-table-card,
+body.dark-mode .products-table-card,
+body.dark-mode .inventory-table-card,
+body.dark-mode .history-table-card,
+body.dark-mode .users-table-card,
+body.dark-mode .settings-card,
+body.dark-mode .modal-content,
+body.dark-mode .qr-label-card {
+    background: var(--card-bg);
+    color: var(--text-main);
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+/* =========================
+   Table
+========================= */
+body.dark-mode table {
+    color: var(--text-main);
+}
+
+body.dark-mode th {
+    background: var(--table-header);
+    color: #ffffff;
+}
+
+body.dark-mode td {
+    color: var(--text-main);
+    border-bottom-color: var(--border);
+}
+
+body.dark-mode td * {
+    color: inherit;
+}
+
+/* =========================
+   Form
+========================= */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background: var(--input-bg);
+    color: var(--text-main);
+    border-color: var(--border-strong);
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: var(--text-muted);
+}
+
+/* =========================
+   Buttons
+========================= */
+body.dark-mode .primary-btn,
+body.dark-mode .add-btn,
+body.dark-mode .save-btn {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(37,99,235,.35);
+}
+
+body.dark-mode .primary-btn:hover,
+body.dark-mode .add-btn:hover,
+body.dark-mode .save-btn:hover {
+    background: var(--primary-hover);
+}
+
+/* QR / Edit / Delete 버튼 */
+body.dark-mode .qr-btn {
+    background: #eef2ff !important;
+    color: #1d4ed8 !important;
+    font-weight: 700;
+}
+
+body.dark-mode .edit-btn {
+    background: #e0f2fe !important;
+    color: #0369a1 !important;
+    font-weight: 700;
+}
+
+body.dark-mode .delete-btn {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+    font-weight: 700;
+}
+
+/* =========================
+   Badge / Status
+========================= */
+
+/* Products status */
+body.dark-mode .status-ok {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+    font-weight: 700;
+}
+
+body.dark-mode .status-low {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+    font-weight: 700;
+}
+
+/* Inventory status */
+body.dark-mode .normal {
+    background: #dcfce7 !important;
+    color: #15803d !important;
+    font-weight: 700;
+}
+
+body.dark-mode .low {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+    font-weight: 700;
+}
+
+body.dark-mode .out {
+    background: #fef3c7 !important;
+    color: #d97706 !important;
+    font-weight: 700;
+}
+
+/* Users role */
+body.dark-mode .role-manager {
+    background: #dbeafe !important;
+    color: #2563eb !important;
+    font-weight: 700;
+}
+
+body.dark-mode .role-operator {
+    background: #dcfce7 !important;
+    color: #16a34a !important;
+    font-weight: 700;
+}
+
+/* History type */
+body.dark-mode .inbound {
+    background: #dbeafe !important;
+    color: #2563eb !important;
+    font-weight: 700;
+}
+
+body.dark-mode .outbound {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+    font-weight: 700;
+}
+
+/* badge 안 span이 전역 span 색상에 덮이지 않도록 */
+body.dark-mode .status-ok *,
+body.dark-mode .status-low *,
+body.dark-mode .normal *,
+body.dark-mode .low *,
+body.dark-mode .out *,
+body.dark-mode .role-manager *,
+body.dark-mode .role-operator *,
+body.dark-mode .inbound *,
+body.dark-mode .outbound * {
+    color: inherit !important;
+}
+
+/* =========================
+   Notification
+========================= */
+body.dark-mode .notification-panel {
+    background: var(--card-bg);
+    color: var(--text-main);
+}
+
+body.dark-mode .notification-item {
+    background: var(--input-bg);
+}
+
+body.dark-mode .notification-item p {
+    color: var(--text-sub);
+}
+
+/* =========================
+   Toast
+========================= */
+body.dark-mode .toast {
+    background: #15803d;
+    color: #ffffff;
+}
+
+/* =========================
+   QR Modal
+========================= */
+body.dark-mode .qr-box,
+body.dark-mode .qr-info div {
+    background: var(--input-bg);
+}
+
+body.dark-mode .qr-buttons button,
+body.dark-mode .qr-buttons a {
+    background: var(--primary);
+    color: #ffffff;
+}
+
+/* =========================
+   Settings
+========================= */
+body.dark-mode .info-row {
+    border-bottom-color: var(--border);
+}
+
+body.dark-mode .info-row span {
+    color: var(--text-sub);
+}
+
+body.dark-mode .info-row strong {
+    color: var(--text-main);
+}
+
+body.dark-mode .logout-setting-btn {
+    background: #ef4444;
+    color: #ffffff;
+}
+
+body.dark-mode .delete-account-btn {
+    background: #991b1b;
+    color: #ffffff;
+}
+
+/* =========================
+   Login Page
+========================= */
+body.dark-mode .login-container,
+body.dark-mode .login-card,
+body.dark-mode .test-account {
+    background: var(--card-bg);
+    color: var(--text-main);
+}
+
+body.dark-mode .login-card h1,
+body.dark-mode .login-card h2,
+body.dark-mode .login-card label {
+    color: var(--text-main);
+}
+
+body.dark-mode .login-card p,
+body.dark-mode .login-card span,
+body.dark-mode .test-account p,
+body.dark-mode .test-account span {
+    color: var(--text-sub);
+}
+
+body.dark-mode .login-card input {
+    background: var(--input-bg);
+    color: var(--text-main);
+    border-color: var(--border-strong);
+}
+
+/* =========================
+   Low Stock / History Row
+========================= */
+body.dark-mode .low-stock-item,
+body.dark-mode .history-row {
+    background: var(--input-bg);
+    color: var(--text-main);
+}
