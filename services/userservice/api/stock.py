@@ -1,50 +1,46 @@
-from flask import Blueprint, request, jsonify
+from kafka import KafkaConsumer
+import json
+
 from services.product_service import inbound_stock, outbound_stock
 
-stock_bp = Blueprint("stock", __name__)
+
+consumer = KafkaConsumer(
+    "scan-event",
+    bootstrap_servers=["kafka-service:9092"],
+    value_deserializer=lambda m: json.loads(m.decode("utf-8"))
+)
 
 
-@stock_bp.route("/stock/in", methods=["POST"])
-def stock_in():
-    data = request.get_json()
 
-    barcode = data.get("barcode")
-    quantity = int(data.get("quantity", 0))
+for message in consumer:
 
-    if quantity <= 0:
-        return jsonify({"error": "입고 수량은 1 이상이어야 합니다."}), 400
-
-    success, message, product = inbound_stock(barcode, quantity)
-
-    if not success:
-        return jsonify({"error": message}), 400
-
-    return jsonify({
-        "message": message,
-        "barcode": barcode,
-        "quantity": quantity,
-        "product": product
-    })
+    event = message.value
 
 
-@stock_bp.route("/stock/out", methods=["POST"])
-def stock_out():
-    data = request.get_json()
+    barcode = event.get("barcode")
 
-    barcode = data.get("barcode")
-    quantity = int(data.get("quantity", 0))
 
-    if quantity <= 0:
-        return jsonify({"error": "출고 수량은 1 이상이어야 합니다."}), 400
+    print(
+        "스캔 이벤트 수신:",
+        barcode
+    )
 
-    success, message, product = outbound_stock(barcode, quantity)
 
-    if not success:
-        return jsonify({"error": message, "product": product}), 400
+    # 예시: 스캔 발생 시 재고 차감
+    success, message, product = outbound_stock(
+        barcode,
+        1
+    )
 
-    return jsonify({
-        "message": message,
-        "barcode": barcode,
-        "quantity": quantity,
-        "product": product
-    })
+
+    if success:
+        print(
+            "재고 변경 완료",
+            product
+        )
+
+    else:
+        print(
+            "재고 변경 실패",
+            message
+        )
