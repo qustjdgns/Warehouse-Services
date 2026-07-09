@@ -3,10 +3,7 @@ from flask import Blueprint, request, jsonify
 from services.scan_service import validate_barcode
 from services.product_service import get_product
 
-from kafka import KafkaProducer
-
-import json
-import os
+from config.kafka import create_producer
 
 
 
@@ -17,27 +14,10 @@ scan_bp = Blueprint(
 
 
 
-# Kafka Producer 설정
-
-producer = KafkaProducer(
-
-    bootstrap_servers=os.getenv(
-        "KAFKA_HOST",
-        "localhost:9092"
-    ),
-
-    value_serializer=lambda data:
-        json.dumps(data).encode("utf-8")
-
-)
+producer = create_producer()
 
 
 
-
-
-# -----------------------------
-# QR Scan API
-# -----------------------------
 @scan_bp.route(
     "/scan",
     methods=["POST"]
@@ -61,14 +41,11 @@ def scan():
 
 
 
-
     barcode = data.get(
         "barcode"
     )
 
 
-
-    # 바코드 검증
 
     is_valid, message = validate_barcode(
         barcode
@@ -80,15 +57,13 @@ def scan():
 
         return jsonify({
 
-            "error":message
+            "error":
+            message
 
         }),400
 
 
 
-
-
-    # 상품 조회
 
     product = get_product(
         barcode
@@ -108,9 +83,6 @@ def scan():
 
 
 
-
-    # Kafka 이벤트 생성
-
     event = {
 
 
@@ -123,20 +95,21 @@ def scan():
 
 
         "quantity":
-        1,
+        data.get(
+            "quantity",
+            1
+        ),
 
 
         "action":
-        "OUT"
-
+        data.get(
+            "action",
+            "OUT"
+        )
 
     }
 
 
-
-
-
-    # Kafka Topic 전송
 
     producer.send(
 
@@ -147,10 +120,7 @@ def scan():
     )
 
 
-
     producer.flush()
-
-
 
 
 
