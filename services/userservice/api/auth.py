@@ -1,49 +1,161 @@
 from flask import Blueprint, request, jsonify, session
-from services.auth_service import get_user_by_username
+from services.auth_service import login_user, register_user
 
-auth_bp = Blueprint("auth", __name__)
+import redis
+import os
+import json
 
 
-@auth_bp.route("/login", methods=["POST"])
-def login():
-    # 사용자가 보낸 JSON 데이터 받기
+auth_bp = Blueprint(
+    "auth",
+    __name__
+)
+
+
+redis_client = redis.Redis(
+    host=os.getenv(
+        "REDIS_HOST",
+        "localhost"
+    ),
+    port=6379,
+    decode_responses=True
+)
+
+
+
+@auth_bp.route(
+    "/register",
+    methods=["POST"]
+)
+def register():
+
     data = request.get_json()
 
-    username = data.get("username")
-    password = data.get("password")
 
-    # DB에서 사용자 조회
-    user = get_user_by_username(username)
+    if not data:
 
-    if user is None:
         return jsonify({
-            "error": "존재하지 않는 사용자입니다."
-        }), 401
+            "error": "JSON 데이터가 필요합니다."
+        }),400
 
-    # 현재는 실습용이라 평문 비밀번호 비교
-    if user["password"] != password:
+
+
+    success, message = register_user(data)
+
+
+
+    if not success:
+
         return jsonify({
-            "error": "비밀번호가 올바르지 않습니다."
-        }), 401
+            "error": message
+        }),400
 
-    # 로그인 사용자 정보 저장
-    session["username"] = user["username"]
-    session["full_name"] = user["full_name"]
-    session["role"] = user["role"]
+
 
     return jsonify({
-        "message": "로그인 성공",
-        "username": user["username"],
-        "full_name": user["full_name"],
-        "role": user["role"]
+        "message": message
     })
 
 
-@auth_bp.route("/logout", methods=["POST"])
-def logout():
-    # 로그인 정보 삭제
-    session.clear()
+
+
+
+@auth_bp.route(
+    "/login",
+    methods=["POST"]
+)
+def login():
+
+    data = request.get_json()
+
+
+    if not data:
+
+        return jsonify({
+            "error": "JSON 데이터가 필요합니다."
+        }),400
+
+
+
+    success, user = login_user(data)
+
+
+
+    if not success:
+
+        return jsonify({
+            "error": "로그인 실패"
+        }),401
+
+
+
+    session["username"] = user["username"]
+
+    session["full_name"] = user.get(
+        "full_name",
+        user["username"]
+    )
+
+
+
+    session_key = f"session:{user['username']}"
+
+
+
+    redis_client.set(
+
+        session_key,
+
+        json.dumps(user),
+
+        ex=3600
+
+    )
+
+
 
     return jsonify({
-        "message": "로그아웃 완료"
+
+        "message": "로그인 성공",
+
+        "user": user
+
+    })
+
+
+
+
+
+@auth_bp.route(
+    "/logout",
+    methods=["POST"]
+)
+def logout():
+
+
+    username = session.get(
+        "username"
+    )
+
+
+    if username:
+
+
+        redis_client.delete(
+
+            f"session:{username}"
+
+        )
+
+
+
+    session.clear()
+
+
+
+    return jsonify({
+
+        "message":
+        "로그아웃 완료"
+
     })
