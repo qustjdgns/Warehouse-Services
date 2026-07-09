@@ -1,5 +1,8 @@
 from config.kafka import create_consumer
 
+from services.notification_service import save_low_stock_notification
+
+
 
 
 consumer = create_consumer(
@@ -30,6 +33,12 @@ for message in consumer:
     ) != "LOW_STOCK":
 
         continue
+
+
+
+    save_low_stock_notification(
+        event
+    )
 
 
 
