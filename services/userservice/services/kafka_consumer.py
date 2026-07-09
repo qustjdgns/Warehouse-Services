@@ -1,46 +1,21 @@
-from kafka import KafkaConsumer, KafkaProducer
-
+from config.kafka import create_consumer, create_producer
 from services.product_service import outbound_stock
 
-import json
-import os
 
 
-KAFKA_HOST = os.getenv(
-    "KAFKA_HOST",
-    "localhost:9092"
-)
-
-
-consumer = KafkaConsumer(
-
+consumer = create_consumer(
     "stock-update",
-
-    bootstrap_servers=KAFKA_HOST,
-
-    value_deserializer=lambda data:
-        json.loads(data.decode("utf-8")),
-
-    group_id="stock-service",
-
-    auto_offset_reset="latest"
-
+    "stock-service"
 )
 
 
+producer = create_producer()
 
-producer = KafkaProducer(
 
-    bootstrap_servers=KAFKA_HOST,
 
-    value_serializer=lambda data:
-        json.dumps(data).encode("utf-8")
-
+print(
+    "Stock Consumer Started"
 )
-
-
-
-print("Stock Consumer Started")
 
 
 
@@ -48,12 +23,6 @@ for message in consumer:
 
 
     event = message.value
-
-
-    print(
-        "Received Event:",
-        event
-    )
 
 
 
@@ -108,33 +77,25 @@ for message in consumer:
             if product["stock"] <= 5:
 
 
-                notification_event = {
-
-
-                    "event_type":
-                    "LOW_STOCK",
-
-
-                    "barcode":
-                    product["barcode"],
-
-
-                    "name":
-                    product["name"],
-
-
-                    "stock":
-                    product["stock"]
-
-                }
-
-
-
                 producer.send(
 
                     "low-stock",
 
-                    notification_event
+                    {
+
+                        "event_type":
+                        "LOW_STOCK",
+
+                        "barcode":
+                        product["barcode"],
+
+                        "name":
+                        product["name"],
+
+                        "stock":
+                        product["stock"]
+
+                    }
 
                 )
 
@@ -147,9 +108,6 @@ for message in consumer:
 
 
             print(
-
                 "Stock Update Failed:",
-
                 result_message
-
             )
