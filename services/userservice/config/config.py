@@ -2,14 +2,72 @@ import os
 
 
 class Config:
-    # 서비스 이름
-    SERVICE_NAME = os.getenv("SERVICE_NAME", "userservice")
 
-    # 배포 버전
-    APP_VERSION = os.getenv("APP_VERSION", "v1.0.0")
+    SERVICE_NAME = os.getenv(
+        "SERVICE_NAME",
+        "SmartWMS UserService"
+    )
 
-    # 실행 환경: local, dev, prod
-    APP_ENV = os.getenv("APP_ENV", "local")
 
-    # 나중에 연결할 WMS Server 주소
-    WMS_SERVER_URL = os.getenv("WMS_SERVER_URL", "http://wms-service:5001")
+    SECRET_KEY = os.getenv(
+        "SECRET_KEY",
+        "smartwms-secret-key"
+    )
+
+
+
+    # PostgreSQL
+
+    DB_HOST = os.getenv(
+        "DB_HOST",
+        "localhost"
+    )
+
+    DB_USER = os.getenv(
+        "DB_USER",
+        "smartwms_user"
+    )
+
+    DB_PASSWORD = os.getenv(
+        "DB_PASSWORD",
+        "1234"
+    )
+
+    DB_NAME = os.getenv(
+        "DB_NAME",
+        "smartwms"
+    )
+
+
+
+    # Redis
+
+    REDIS_HOST = os.getenv(
+        "REDIS_HOST",
+        "localhost"
+    )
+
+    REDIS_PORT = int(
+        os.getenv(
+            "REDIS_PORT",
+            6379
+        )
+    )
+
+
+
+    # Kafka
+
+    KAFKA_HOST = os.getenv(
+        "KAFKA_HOST",
+        "localhost:9092"
+    )
+
+
+
+    # Flask
+
+    DEBUG = os.getenv(
+        "DEBUG",
+        "false"
+    ).lower() == "true"
