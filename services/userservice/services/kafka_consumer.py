@@ -1,4 +1,4 @@
-from kafka import KafkaConsumer
+from kafka import KafkaConsumer, KafkaProducer
 
 from services.product_service import outbound_stock
 
@@ -6,25 +6,22 @@ import json
 import os
 
 
+KAFKA_HOST = os.getenv(
+    "KAFKA_HOST",
+    "localhost:9092"
+)
+
 
 consumer = KafkaConsumer(
 
     "stock-update",
 
-    bootstrap_servers=os.getenv(
-        "KAFKA_HOST",
-        "localhost:9092"
-    ),
-
+    bootstrap_servers=KAFKA_HOST,
 
     value_deserializer=lambda data:
-        json.loads(
-            data.decode("utf-8")
-        ),
-
+        json.loads(data.decode("utf-8")),
 
     group_id="stock-service",
-
 
     auto_offset_reset="latest"
 
@@ -32,9 +29,18 @@ consumer = KafkaConsumer(
 
 
 
-print(
-    "Kafka Stock Consumer Started"
+producer = KafkaProducer(
+
+    bootstrap_servers=KAFKA_HOST,
+
+    value_serializer=lambda data:
+        json.dumps(data).encode("utf-8")
+
 )
+
+
+
+print("Stock Consumer Started")
 
 
 
@@ -57,7 +63,6 @@ for message in consumer:
 
 
 
-
     barcode = event.get(
         "barcode"
     )
@@ -75,13 +80,10 @@ for message in consumer:
 
 
 
-
-    # 출고 이벤트
-
     if action == "OUT":
 
 
-        success, message, product = outbound_stock(
+        success, result_message, product = outbound_stock(
 
             barcode,
 
@@ -92,7 +94,9 @@ for message in consumer:
         )
 
 
+
         if success:
+
 
             print(
                 "Stock Updated:",
@@ -100,9 +104,52 @@ for message in consumer:
             )
 
 
+
+            if product["stock"] <= 5:
+
+
+                notification_event = {
+
+
+                    "event_type":
+                    "LOW_STOCK",
+
+
+                    "barcode":
+                    product["barcode"],
+
+
+                    "name":
+                    product["name"],
+
+
+                    "stock":
+                    product["stock"]
+
+                }
+
+
+
+                producer.send(
+
+                    "low-stock",
+
+                    notification_event
+
+                )
+
+
+                producer.flush()
+
+
+
         else:
 
+
             print(
+
                 "Stock Update Failed:",
-                message
+
+                result_message
+
             )
