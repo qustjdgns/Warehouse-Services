@@ -1,46 +1,98 @@
 from config.database import get_connection
+import redis
+import json
 
 
+# Redis 연결
+redis_client = redis.Redis(
+    host="redis-service",
+    port=6379,
+    decode_responses=True
+)
+
+
+# ----------------------------
+# 상품 단건 조회 (Redis 적용)
+# ----------------------------
 def get_product(barcode):
-    # barcode로 상품 1개 조회
+
+    cache_key = f"product:{barcode}"
+
+    # 1. Redis 조회
+    cached_product = redis_client.get(cache_key)
+
+    if cached_product:
+        return json.loads(cached_product)
+
+
+    # 2. PostgreSQL/MariaDB 조회
     conn = get_connection()
 
     try:
         with conn.cursor() as cursor:
+
             sql = """
                 SELECT barcode, name, stock, location
                 FROM products
                 WHERE barcode = %s
             """
-            cursor.execute(sql, (barcode,))
-            return cursor.fetchone()
+
+            cursor.execute(
+                sql,
+                (barcode,)
+            )
+
+            product = cursor.fetchone()
+
+
+            # 3. Redis 저장
+            if product:
+
+                redis_client.set(
+                    cache_key,
+                    json.dumps(product),
+                    ex=300
+                )
+
+
+            return product
+
 
     finally:
         conn.close()
 
 
 
+# ----------------------------
+# 전체 상품 조회
+# ----------------------------
 def get_products():
-    # 전체 상품 목록 조회
+
     conn = get_connection()
 
     try:
         with conn.cursor() as cursor:
+
             sql = """
                 SELECT barcode, name, stock, location
                 FROM products
                 ORDER BY barcode
             """
+
             cursor.execute(sql)
+
             return cursor.fetchall()
+
 
     finally:
         conn.close()
 
 
 
+# ----------------------------
+# 입고 처리
+# ----------------------------
 def inbound_stock(barcode, quantity, worker="system"):
-    # 입고: 재고 증가
 
     product = get_product(barcode)
 
@@ -51,6 +103,7 @@ def inbound_stock(barcode, quantity, worker="system"):
     conn = get_connection()
 
     try:
+
         with conn.cursor() as cursor:
 
             sql = """
@@ -61,12 +114,15 @@ def inbound_stock(barcode, quantity, worker="system"):
 
             cursor.execute(
                 sql,
-                (quantity, barcode)
+                (
+                    quantity,
+                    barcode
+                )
             )
 
 
             history_sql = """
-                INSERT INTO history 
+                INSERT INTO history
                 (barcode, type, quantity, worker)
                 VALUES (%s, 'IN', %s, %s)
             """
@@ -82,6 +138,12 @@ def inbound_stock(barcode, quantity, worker="system"):
 
 
             conn.commit()
+
+
+        # 캐시 삭제
+        redis_client.delete(
+            f"product:{barcode}"
+        )
 
 
         updated_product = get_product(barcode)
@@ -102,11 +164,13 @@ def inbound_stock(barcode, quantity, worker="system"):
 
 
 
-
+# ----------------------------
+# 출고 처리
+# ----------------------------
 def outbound_stock(barcode, quantity, worker="system"):
-    # 출고: 재고 감소
 
     product = get_product(barcode)
+
 
     if product is None:
         return False, "상품을 찾을 수 없습니다.", None
@@ -141,6 +205,7 @@ def outbound_stock(barcode, quantity, worker="system"):
             )
 
 
+
             history_sql = """
                 INSERT INTO history
                 (barcode, type, quantity, worker)
@@ -160,6 +225,12 @@ def outbound_stock(barcode, quantity, worker="system"):
 
             conn.commit()
 
+
+
+        # 캐시 삭제
+        redis_client.delete(
+            f"product:{barcode}"
+        )
 
 
         updated_product = get_product(barcode)
@@ -183,8 +254,10 @@ def outbound_stock(barcode, quantity, worker="system"):
 
 
 
+# ----------------------------
+# 상품 등록
+# ----------------------------
 def create_product(barcode, name, stock, location):
-    # 상품 추가
 
     conn = get_connection()
 
@@ -213,6 +286,7 @@ def create_product(barcode, name, stock, location):
 
         conn.commit()
 
+
         return True, "상품 등록 완료"
 
 
@@ -232,8 +306,10 @@ def create_product(barcode, name, stock, location):
 
 
 
+# ----------------------------
+# 상품 수정
+# ----------------------------
 def update_product(barcode, name, stock, location):
-    # 상품 수정
 
     conn = get_connection()
 
@@ -264,6 +340,12 @@ def update_product(barcode, name, stock, location):
 
         conn.commit()
 
+
+        redis_client.delete(
+            f"product:{barcode}"
+        )
+
+
         return True, "상품 수정 완료"
 
 
@@ -283,8 +365,10 @@ def update_product(barcode, name, stock, location):
 
 
 
+# ----------------------------
+# 상품 삭제
+# ----------------------------
 def delete_product(barcode):
-    # 상품 삭제
 
     conn = get_connection()
 
@@ -298,6 +382,7 @@ def delete_product(barcode):
                 WHERE barcode=%s
             """
 
+
             cursor.execute(
                 sql,
                 (barcode,)
@@ -305,6 +390,12 @@ def delete_product(barcode):
 
 
         conn.commit()
+
+
+        redis_client.delete(
+            f"product:{barcode}"
+        )
+
 
         return True, "상품 삭제 완료"
 
