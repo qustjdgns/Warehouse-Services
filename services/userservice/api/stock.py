@@ -1,76 +1,218 @@
 from flask import Blueprint, request, jsonify
-from services.product_service import inbound_stock, outbound_stock
+
+from services.product_service import (
+    inbound_stock,
+    outbound_stock
+)
+
+from flask import session
 
 
-stock_bp = Blueprint("stock", __name__)
+
+stock_bp = Blueprint(
+    "stock",
+    __name__
+)
 
 
-@stock_bp.route("/stock/in", methods=["POST"])
+
+
+
+@stock_bp.route(
+    "/stock/in",
+    methods=["POST"]
+)
 def stock_in():
+
 
     data = request.get_json()
 
-    barcode = data.get("barcode")
-    quantity = int(data.get("quantity", 0))
 
 
-    if quantity <= 0:
+    if not data:
+
         return jsonify({
-            "error": "입고 수량은 1 이상이어야 합니다."
+
+            "error":
+            "JSON 데이터가 필요합니다."
+
         }),400
 
 
-    success, message, product = inbound_stock(
-        barcode,
-        quantity
+
+    barcode = data.get(
+        "barcode"
     )
 
 
-    if not success:
+    quantity = int(
+        data.get(
+            "quantity",
+            0
+        )
+    )
+
+
+
+    if quantity <= 0:
+
         return jsonify({
-            "error": message
+
+            "error":
+            "입고 수량은 1 이상이어야 합니다."
+
         }),400
 
 
+
+
+    worker = session.get(
+        "username",
+        "unknown"
+    )
+
+
+
+    success, message, product = inbound_stock(
+
+        barcode,
+
+        quantity,
+
+        worker
+
+    )
+
+
+
+    if not success:
+
+        return jsonify({
+
+            "error":
+            message
+
+        }),400
+
+
+
+
     return jsonify({
-        "message": message,
-        "barcode": barcode,
-        "quantity": quantity,
-        "product": product
+
+        "message":
+        message,
+
+        "barcode":
+        barcode,
+
+        "quantity":
+        quantity,
+
+        "product":
+        product
+
     })
 
 
 
-@stock_bp.route("/stock/out", methods=["POST"])
+
+
+
+
+@stock_bp.route(
+    "/stock/out",
+    methods=["POST"]
+)
 def stock_out():
+
 
     data = request.get_json()
 
-    barcode = data.get("barcode")
-    quantity = int(data.get("quantity",0))
 
 
-    if quantity <= 0:
+    if not data:
+
         return jsonify({
-            "error":"출고 수량은 1 이상이어야 합니다."
+
+            "error":
+            "JSON 데이터가 필요합니다."
+
         }),400
 
 
-    success, message, product = outbound_stock(
-        barcode,
-        quantity
+
+    barcode = data.get(
+        "barcode"
     )
 
 
-    if not success:
+    quantity = int(
+        data.get(
+            "quantity",
+            0
+        )
+    )
+
+
+
+    if quantity <= 0:
+
         return jsonify({
-            "error":message
+
+            "error":
+            "출고 수량은 1 이상이어야 합니다."
+
         }),400
 
 
+
+
+    worker = session.get(
+        "username",
+        "unknown"
+    )
+
+
+
+    success, message, product = outbound_stock(
+
+        barcode,
+
+        quantity,
+
+        worker
+
+    )
+
+
+
+    if not success:
+
+        return jsonify({
+
+            "error":
+            message,
+
+            "product":
+            product
+
+        }),400
+
+
+
+
     return jsonify({
-        "message":message,
-        "barcode":barcode,
-        "quantity":quantity,
-        "product":product
+
+        "message":
+        message,
+
+        "barcode":
+        barcode,
+
+        "quantity":
+        quantity,
+
+        "product":
+        product
+
     })
