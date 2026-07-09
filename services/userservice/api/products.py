@@ -9,6 +9,7 @@ from services.product_service import (
 )
 
 
+
 products_bp = Blueprint(
     "products",
     __name__
@@ -16,38 +17,33 @@ products_bp = Blueprint(
 
 
 
-# -----------------------------
-# 전체 상품 조회
-# -----------------------------
+
+
 @products_bp.route(
     "/products",
     methods=["GET"]
 )
 def products():
 
-    products = get_products()
-
     return jsonify(
-        products
+        get_products()
     )
 
 
 
 
 
-# -----------------------------
-# 상품 단건 조회
-# Redis 적용 대상
-# -----------------------------
 @products_bp.route(
     "/products/<barcode>",
     methods=["GET"]
 )
 def product_detail(barcode):
 
+
     product = get_product(
         barcode
     )
+
 
 
     if product is None:
@@ -61,6 +57,7 @@ def product_detail(barcode):
 
 
 
+
     return jsonify(
         product
     )
@@ -69,9 +66,7 @@ def product_detail(barcode):
 
 
 
-# -----------------------------
-# 상품 등록
-# -----------------------------
+
 @products_bp.route(
     "/products",
     methods=["POST"]
@@ -82,6 +77,7 @@ def product_create():
     data = request.get_json()
 
 
+
     if not data:
 
         return jsonify({
@@ -90,6 +86,7 @@ def product_create():
             "JSON 데이터가 필요합니다."
 
         }),400
+
 
 
 
@@ -111,15 +108,18 @@ def product_create():
 
         return jsonify({
 
-            "error":message
+            "error":
+            message
 
         }),400
 
 
 
+
     return jsonify({
 
-        "message":message
+        "message":
+        message
 
     })
 
@@ -127,9 +127,7 @@ def product_create():
 
 
 
-# -----------------------------
-# 상품 수정
-# -----------------------------
+
 @products_bp.route(
     "/products/<barcode>",
     methods=["PUT"]
@@ -152,6 +150,7 @@ def product_update(barcode):
 
 
 
+
     success, message = update_product(
 
         barcode,
@@ -170,15 +169,18 @@ def product_update(barcode):
 
         return jsonify({
 
-            "error":message
+            "error":
+            message
 
         }),400
 
 
 
+
     return jsonify({
 
-        "message":message
+        "message":
+        message
 
     })
 
@@ -186,9 +188,8 @@ def product_update(barcode):
 
 
 
-# -----------------------------
-# 상품 삭제
-# -----------------------------
+
+
 @products_bp.route(
     "/products/<barcode>",
     methods=["DELETE"]
@@ -206,14 +207,17 @@ def product_delete(barcode):
 
         return jsonify({
 
-            "error":message
+            "error":
+            message
 
         }),400
 
 
 
+
     return jsonify({
 
-        "message":message
+        "message":
+        message
 
     })
