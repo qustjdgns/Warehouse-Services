@@ -1,29 +1,12 @@
-from kafka import KafkaConsumer
-
-import json
-import os
+from config.kafka import create_consumer
 
 
 
-KAFKA_HOST = os.getenv(
-    "KAFKA_HOST",
-    "localhost:9092"
-)
-
-
-
-consumer = KafkaConsumer(
+consumer = create_consumer(
 
     "low-stock",
 
-    bootstrap_servers=KAFKA_HOST,
-
-    value_deserializer=lambda data:
-        json.loads(data.decode("utf-8")),
-
-    group_id="notification-service",
-
-    auto_offset_reset="latest"
+    "notification-service"
 
 )
 
@@ -42,7 +25,9 @@ for message in consumer:
 
 
 
-    if event.get("event_type") != "LOW_STOCK":
+    if event.get(
+        "event_type"
+    ) != "LOW_STOCK":
 
         continue
 
