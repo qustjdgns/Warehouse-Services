@@ -1,9 +1,14 @@
 from flask import Blueprint, request, jsonify, session
-from services.auth_service import login_user, register_user
 
-import redis
-import os
+from services.auth_service import (
+    login_user,
+    register_user
+)
+
+from config.redis import redis_client
+
 import json
+
 
 
 auth_bp = Blueprint(
@@ -12,14 +17,6 @@ auth_bp = Blueprint(
 )
 
 
-redis_client = redis.Redis(
-    host=os.getenv(
-        "REDIS_HOST",
-        "localhost"
-    ),
-    port=6379,
-    decode_responses=True
-)
 
 
 
@@ -32,29 +29,45 @@ def register():
     data = request.get_json()
 
 
+
     if not data:
 
         return jsonify({
-            "error": "JSON 데이터가 필요합니다."
+
+            "error":
+            "JSON 데이터가 필요합니다."
+
         }),400
 
 
 
-    success, message = register_user(data)
+
+    success, message = register_user(
+        data
+    )
 
 
 
     if not success:
 
         return jsonify({
-            "error": message
+
+            "error":
+            message
+
         }),400
 
 
 
+
     return jsonify({
-        "message": message
+
+        "message":
+        message
+
     })
+
+
 
 
 
@@ -66,45 +79,53 @@ def register():
 )
 def login():
 
+
     data = request.get_json()
+
 
 
     if not data:
 
         return jsonify({
-            "error": "JSON 데이터가 필요합니다."
+
+            "error":
+            "JSON 데이터가 필요합니다."
+
         }),400
 
 
 
-    success, user = login_user(data)
+
+    success, user = login_user(
+        data
+    )
 
 
 
     if not success:
 
         return jsonify({
-            "error": "로그인 실패"
+
+            "error":
+            "로그인 실패"
+
         }),401
+
 
 
 
     session["username"] = user["username"]
 
-    session["full_name"] = user.get(
-        "full_name",
-        user["username"]
-    )
+    session["full_name"] = user["full_name"]
 
+    session["role"] = user["role"]
 
-
-    session_key = f"session:{user['username']}"
 
 
 
     redis_client.set(
 
-        session_key,
+        f"session:{user['username']}",
 
         json.dumps(user),
 
@@ -116,11 +137,16 @@ def login():
 
     return jsonify({
 
-        "message": "로그인 성공",
+        "message":
+        "로그인 성공",
 
-        "user": user
+        "user":
+        user
 
     })
+
+
+
 
 
 
@@ -136,6 +162,7 @@ def logout():
     username = session.get(
         "username"
     )
+
 
 
     if username:
